@@ -25,8 +25,11 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # npm install, not npm ci: package.json pins every dependency to "latest",
+      # and the committed lock file is generated on macOS so it omits the
+      # Linux-only optional deps the runner needs.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: Build
         run: npm run build
       - name: Setup Pages
